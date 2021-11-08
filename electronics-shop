@@ -1,0 +1,91 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+class Solution {
+
+    /*
+     * Complete the getMoneySpent function below.
+     * Code written by Alec Symmonds
+     * Link for problem description: https://www.hackerrank.com/challenges/electronics-shop/problem
+     */
+    static int getMoneySpent(int[] keyboards, int[] drives, int b) {
+        
+        int final_results = 0;
+        
+        foreach(int x in keyboards)
+        {
+            foreach(int j in drives)
+            {
+                if(j + x <= b)
+                {
+                    int temp = j + x;
+                    if(temp > final_results)
+                    {
+                        final_results = temp;
+                    }
+                }                
+            }
+        }
+ 
+        
+        foreach(int x in drives)
+        {
+            foreach(int j in keyboards)
+            {
+                if(x + j <= b)
+                {
+                    int temp = x + j;
+                    if(temp > final_results)
+                    {
+                        final_results = temp;
+                    }
+                }                
+            }
+            
+
+
+        }
+        if(final_results == 0)
+        {
+            return -1;
+        }
+        else
+        {
+            return final_results;            
+        }
+
+
+    }
+    
+    //Hackerrank provided code
+
+    static void Main(string[] args) {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        string[] bnm = Console.ReadLine().Split(' ');
+
+        int b = Convert.ToInt32(bnm[0]);
+
+        int n = Convert.ToInt32(bnm[1]);
+
+        int m = Convert.ToInt32(bnm[2]);
+
+        int[] keyboards = Array.ConvertAll(Console.ReadLine().Split(' '), keyboardsTemp => Convert.ToInt32(keyboardsTemp))
+        ;
+
+        int[] drives = Array.ConvertAll(Console.ReadLine().Split(' '), drivesTemp => Convert.ToInt32(drivesTemp))
+        ;
+        /*
+         * The maximum amount of money she can spend on a keyboard and USB drive, or -1 if she can't purchase both items
+         */
+
+        int moneySpent = getMoneySpent(keyboards, drives, b);
+
+        textWriter.WriteLine(moneySpent);
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
