@@ -1,0 +1,96 @@
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+class Result
+{
+
+    /*
+     * Complete the 'breakingRecords' function below.
+     *
+     * The function is expected to return an INTEGER_ARRAY.
+     * The function accepts INTEGER_ARRAY scores as parameter.
+     * Code written by Alec Symmonds
+     * Link for problem description: https://www.hackerrank.com/challenges/breaking-best-and-worst-records/problem
+     */
+
+    public static List<int> breakingRecords(List<int> scores)
+    {
+        
+        //given a list of scores, return how many times the min/max records are broken
+        
+        //create variables for return value & brokenRecord counters
+        List<int> results = new List<int>();
+        int brokenRecordCount_max = 0;
+        int brokenRecordCount_min = 0;
+        
+        //set min/max to first element of array as a base
+        int max = scores[0];
+        int min = scores[0];
+        
+        
+        //loop through collection
+        foreach(int i in scores)
+        {
+            
+            //if current element is less than min value, set new min, increment counter
+            if(i < min)
+            {
+                
+                min = i;
+                brokenRecordCount_min++;
+                
+            }
+            
+            //if current element is greater than max value, set new max, increment counter
+            else if(i > max)
+            {
+                
+                max = i;
+                
+                brokenRecordCount_max++;
+                
+            }
+
+        }
+        
+        //add brokenRecord counters to list in order specified & return results
+        
+        results.Add(brokenRecordCount_max);
+        results.Add(brokenRecordCount_min);
+        return results;
+
+    }
+
+}
+
+
+//Hackerrank provided code
+class Solution
+{
+    public static void Main(string[] args)
+    {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        int n = Convert.ToInt32(Console.ReadLine().Trim());
+
+        List<int> scores = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(scoresTemp => Convert.ToInt32(scoresTemp)).ToList();
+
+        List<int> result = Result.breakingRecords(scores);
+
+        textWriter.WriteLine(String.Join(" ", result));
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
